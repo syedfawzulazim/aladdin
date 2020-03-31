@@ -5,9 +5,9 @@
                 <div class="mobile-menu">
                     <nav id="dropdown">
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{route('index')}}">Home</a></li>
                             <li>
-                                <a href="shop.html">Products</a>
+                                <a href="{{route('products')}}">Products</a>
                             </li>
                             <li><a href="#">Pages</a>
                                 <ul>

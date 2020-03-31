@@ -31,8 +31,22 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="{{ route('admin.pages.product_create')}}"><i class="fa fa-link"></i> <span>Add New Products</span></a></li>
+      <li class=" treeview">
+        <a href="#"><i class="fa fa-university"></i> <span>Product</span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ route('admin.pages.product_create')}}"><i class="fa fa-link"></i> <span>Add New Products</span></a></li>
+          <li><a href="#">View All Product</a></li>
+        </ul>
+      </li>
+
+      <li><a href=""><i class="fa fa-link"></i> <span>Add New Products</span></a></li>
+
       <li><a href="#"><i class="fa fa-add"></i> <span>View Order</span></a></li>
+      
       <li class="treeview">
         <a href="#"><i class="fa fa-university"></i> <span>Multilevel</span>
           <span class="pull-right-container">
@@ -44,6 +58,7 @@
           <li><a href="#">Link in level 2</a></li>
         </ul>
       </li>
+
     </ul>
     <!-- /.sidebar-menu -->
   </section>

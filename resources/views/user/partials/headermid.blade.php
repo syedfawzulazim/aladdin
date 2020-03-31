@@ -5,7 +5,7 @@
                 <!-- logo -->
                 <div class="col-md-2 col-sm-6 col-xs-12">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="{{route('index')}}">
                             <img src="img/logo/aladdin2.png" alt="main logo">
                         </a>
                     </div>
@@ -14,8 +14,8 @@
                 <div class="col-md-8 hidden-sm hidden-xs">
                     <nav id="primary-menu">
                         <ul class="main-menu text-center">
-                            <li><a href="index.html">Home</a></li>
-                            <li class="mega-parent"><a href="shop.html">Products</a>
+                            <li><a href="{{route('index')}}">Home</a></li>
+                            <li class="mega-parent"><a href="{{route('products')}}">Products</a>
                                 <div class="mega-menu-area clearfix">
                                     <div class="mega-menu-link f-left">
                                         <ul class="single-mega-item">
