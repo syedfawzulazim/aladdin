@@ -15,7 +15,7 @@ class AdminProductController extends Controller
   public function create()
   {
     $products = Product::orderBy('id')->get();
-    return view ('admin.pages.product_create')->with('products', $products);
+    return view ('admin.pages.product.product_create')->with('products', $products);
   }
 
   public function store(Request $request)
@@ -57,7 +57,7 @@ class AdminProductController extends Controller
     //   $product_image->product_id = $product->id;
     //   $product_image->image = $imageName;
     //   $product_image->save();
-
+    //   }
 
 
       if (($request->product_image)>0) {
@@ -78,7 +78,7 @@ class AdminProductController extends Controller
       }
 
       session()->flash('success_add', 'Product has been Added!!');
-    return redirect()->route('admin.pages.product_create');
+    return redirect()->route('admin.pages.product.product_create');
     }
 
 
@@ -87,7 +87,16 @@ class AdminProductController extends Controller
      $edit = Product::find($id);
 
      $products = Product::orderBy('id')->get(); 
-     return view ('admin.pages.product_update')->with('products', $products)->with('edit',$edit); 
+     return view ('admin.pages.product.product_update')->with('products', $products)->with('edit',$edit); 
+   } 
+
+
+   public function view_update($id)
+  { 
+     $edit = Product::find($id);
+
+     $products = Product::orderBy('id')->get(); 
+     return view ('admin.pages.product.product_view_update')->with('products', $products)->with('edit',$edit); 
    }
 
 
@@ -109,24 +118,65 @@ class AdminProductController extends Controller
 
 
    	session()->flash('success_updated', 'Product has been Updated!!');
-    return redirect()->route('admin.pages.product_create');
+    return redirect()->route('admin.pages.product.product_create');
+    }
+
+
+    public function view_edit(Request $request, $id)
+  {
+
+    $product = Product::find($id);
+
+    $product->category_id = $request->category ; 
+    $product->brand_id = $request->brand ;
+    $product->title = $request->title ;
+    $product->slug = str_slug ($request->title) ;
+    $product->description = $request->description ;
+    $product-> price= $request->price ;
+    $product->quantity = $request->quantity ;
+    $product->offer_price = $request->offer_price ;
+    $product-> save() ;
+
+
+    session()->flash('success_updated', 'Product has been Updated!!');
+    return redirect()->route('admin.pages.product.product_view');
     }
 
 
 
     public function delete($id)
     {
-    	$product = Product::find($id);
+      $product = Product::find($id);
 
-    	if (!is_null($product)) {
-    		$product->delete();
-    	}
+      if (!is_null($product)) {
+        $product->delete();
+      }
 
-    	session()->flash('success_delete', 'Product has been Deleted!!');
-    	return redirect()->route('admin.pages.product_create');
+      session()->flash('success_delete', 'Product has been Deleted!!');
+      return redirect()->route('admin.pages.product.product_create');
+    }
+
+     public function view_delete($id)
+    {
+      $product = Product::find($id);
+
+      if (!is_null($product)) {
+        $product->delete();
+      }
+
+      session()->flash('success_delete', 'Product has been Deleted!!');
+      return redirect()->route('admin.pages.product.product_view');
     }
 
 
+
+    public function view()
+    {
+
+      $products = Product::orderBy('id')->get();
+    return view ('admin.pages.product.product_view')->with('products', $products);
+
+    }
 
 
  

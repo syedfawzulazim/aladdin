@@ -32,32 +32,35 @@
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
       <li class=" treeview">
-        <a href="#"><i class="fa fa-university"></i> <span>Product</span>
+        <a href="#"><i class="fab fa-battle-net"></i> <span>Adder</span>
           <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{ route('admin.pages.product_create')}}"><i class="fa fa-link"></i> <span>Add New Products</span></a></li>
-          <li><a href="#">View All Product</a></li>
+          <li><a href="{{ route('admin.pages.product.product_create')}}"><i class="fas fa-plus-circle"></i>  <span>Add Products</span></a></li>
+          <li><a href="{{ route('admin.pages.category.create')}}"><i class="fas fa-plus-circle"></i>  <span>Add Categories</span></a></li>
+          <li><a href="{{ route('admin.pages.product.product_create')}}"><i class="fas fa-plus-circle"></i>  <span>Add Brands</span></a></li>
         </ul>
       </li>
 
+      
+      
+      <li class="treeview">
+        <a href="#"> <span>Manager</span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ route('admin.pages.product.product_view')}}"><i class="fab fa-vaadin"></i>  <span>Products</span></a></li>
+          <li><a href="{{ route('admin.pages.product.product_create')}}"><i class="fab fa-vaadin"></i>  <span>Categories</span></a></li>
+          <li><a href="{{ route('admin.pages.product.product_create')}}"><i class="fab fa-vaadin"></i>  <span>Brands</span></a></li>
+        </ul>
+      </li>
       <li><a href=""><i class="fa fa-link"></i> <span>Add New Products</span></a></li>
 
       <li><a href="#"><i class="fa fa-add"></i> <span>View Order</span></a></li>
-      
-      <li class="treeview">
-        <a href="#"><i class="fa fa-university"></i> <span>Multilevel</span>
-          <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="#">Link in level 2</a></li>
-          <li><a href="#">Link in level 2</a></li>
-        </ul>
-      </li>
 
     </ul>
     <!-- /.sidebar-menu -->

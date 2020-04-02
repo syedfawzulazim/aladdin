@@ -19,7 +19,7 @@
 
 @if (Session::has('success_add'))
    
-     <div class="alert alert-success">
+     <div class="alert alert-warning">
         <p>{{ Session::get('success_add') }}</p> 
     </div>   
 

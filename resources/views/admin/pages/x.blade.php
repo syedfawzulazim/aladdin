@@ -1,75 +1,229 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
+@extends('admin.layouts.master')
+
+@section('title', 'Admin || Categories')
+
+@section('content')
+
+<section class="content container-fluid">
+  <script>
+  function preview_images()
+  {
+  var total_file=document.getElementById("images").files.length;
+  for(var i=0;i<total_file;i++)
+  {
+  $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+  }
+  }
+  </script>
+  <script>
+  (function(document) {
+  'use strict';
+  var LightTableFilter = (function(Arr) {
+  var _input;
+  function _onInputEvent(e) {
+  _input = e.target;
+  var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+  Arr.forEach.call(tables, function(table) {
+  Arr.forEach.call(table.tBodies, function(tbody) {
+  Arr.forEach.call(tbody.rows, _filter);
   });
-});
-</script>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+  });
+  }
+  function _filter(row) {
+  var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+  row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+  }
+  return {
+  init: function() {
+  var inputs = document.getElementsByClassName('light-table-filter');
+  Arr.forEach.call(inputs, function(input) {
+  input.oninput = _onInputEvent;
+  });
+  }
+  };
+  })(Array.prototype);
+  document.addEventListener('readystatechange', function() {
+  if (document.readyState === 'complete') {
+  LightTableFilter.init();
+  }
+  });
+  })(document);
+  </script>
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
-</head>
-<body>
 
-<h2>Filterable Table</h2>
-<p>Type something in the input field to search the table for first names, last names or emails:</p>  
-<input id="myInput" type="text" placeholder="Search..">
-<br><br>
-
-<table>
-  <thead>
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th>Email</th>
-  </tr>
-  </thead>
-  <tbody id="myTable">
-  <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>john@example.com</td>
-  </tr>
-  <tr>
-    <td>Mary</td>
-    <td>Moe</td>
-    <td>mary@mail.com</td>
-  </tr>
-  <tr>
-    <td>July</td>
-    <td>Dooley</td>
-    <td>july@greatstuff.com</td>
-  </tr>
-  <tr>
-    <td>Anja</td>
-    <td>Ravendale</td>
-    <td>a_r@test.com</td>
-  </tr>
-  </tbody>
-</table>
+      <div class="row">
+    <div class="col-md-4">
+      <div class="card" style="padding:0px 10px;">
+        <div class="card-header">
+          <h3 style="background-color:#222d32; color:#ffffff; padding: 5px;text-align: center;" ><i class="fas fa-comment-medical"></i> Add Product</h3>
+        </div>
+        <div class="card-body">
+          <form  action="{{ route('admin.pages.category.create') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+              <label for="parent_id"><i class="fas fa-chart-pie"></i> Parent ID</label>
+              <input type="text" class="form-control" name="parent_id" placeholder="Parent's ID" required>
+            </div>
+            <div class="form-group">
+              <label for="name"><i class="fab fa-bootstrap"></i> Name</label>
+              <input type="text" class="form-control" name="category_name" placeholder="Caregory Name" required>
+            <div class="form-group">
+              <label for="description"><i class="fas fa-edit"></i> Description</label>
+              <textarea name="description" class="form-control" name="description" placeholder="Product's Description" rows="4" cols="80" required></textarea>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="category_image"><i class="fas fa-camera-retro"></i> Category's Image</label>
+                  <input type="file" class="form-control" id="images" name="category_image[]" required onchange="preview_images();" multiple/>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <br>
+                  <button type="submit" class="btn btn-primary" name="submit">Add To Database</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          
+          <div class="row">
+            <div class="col-md-12" id="image_preview">
+              
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+    
+     <div class="col-md-8">
+      <div class="card" style="padding:0px 10px;">
+        <div class="card-header">
+          <h3 style="background-color:#222d32; color:#ffffff; padding: 5px;text-align: center;" ><i class="fas fa-database"></i> Product Table</h3>
+          @include('admin.partials.message')
+          <div class="row">
+            <div class="col-md-6">
+              <div class="active-cyan-3 active-cyan-4 mb-4">
+                <label for="rows">Search</label><br>
+                <input class="form-control light-table-filter" data-table="order-table" type="text"  aria-label="Search">
+              </div>
+            </div>
+            <div class="col-md-6">
+              
+              <label for="rows">Select Number Of Rows</label>
+              <div class="form-group">
+                <select class  ="form-control" name="state" id="maxRows">
+                  <option value="5000">Show ALL</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="70">70</option>
+                  <option value="100">100</option>
+                </select>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="table-responsive tableFixHead">
+          <table id= "table-id" class="order-table table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th class="th-sm">Parent ID
+                </th>
+                <th class="th-sm">Name
+                </th>
+                <th class="th-sm">Description
+                </th>
+                <th class="th-sm">Image
+                </th>
+                <th class="th-sm">Action
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table">
+              
+              @foreach ($categories as $category)
+              <tr>
+                <td>{{ $category->parent_id }}</td>
+                <td>{{ $category->name }}</td>
+                <td>{{ $category->description}}</td>
+                <td>{{ $category->imane}}</td>
+                <td><a href="{{ route('admin.pages.category.edit', $category->id) }}" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                    <a href="#deleteModal{{ $category->id }}"  class="btn btn-danger" data-toggle="modal"><i class="fas fa-trash-alt"></i></a></td>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Are you sure to delete?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                       <h4 style="background-color:#c9302c; color:#ffffff; padding: 5px;text-align: center;">TITLE : {{ $category->name }} Categoty ID : {{ $category->id }}</h4>
+                       <h4></h4>
+                      </div>
+                      <div class="modal-footer">
+                        
+                         <form action="{{ route('admin.pages.category.delete', $category->id) }}" method="post">
+                          {{ csrf_field() }}
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Delete Product</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                @endforeach
+                
+                
+              </tbody>
+              <tfoot>
+              <tr>
+                <th class="th-sm">Title
+                </th>
+                <th class="th-sm">Product ID
+                </th>
+                <th class="th-sm">Category ID
+                </th>
+                 <th class="th-sm">Brand ID
+                </th>
+                <th class="th-sm">Quantity
+                </th>
+                <th class="th-sm">Price
+                </th>
+      
+                <th class="th-sm">Action
+                </th>
+              </tr>
+              </tfoot>
+            </table>
+            <div class='pagination-container' >
+              <nav>
+                <ul class="pagination">
+                  
+                  <li data-page="prev" >
+                    <span> < <span class="sr-only">(current)</span></span>
+                  </li>
+                  <!-- Here the JS Function Will Add the Rows -->
+                  <li data-page="next" id="prev">
+                    <span> > <span class="sr-only">(current)</span></span>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   
-<p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
 
-</body>
-</html>
+@endsection
